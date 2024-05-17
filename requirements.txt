@@ -1,0 +1,8 @@
+python-dotenv
+crewai
+langchain-openai
+langchain-groq
+langchain
+langchain-community
+neo4j
+pyyaml

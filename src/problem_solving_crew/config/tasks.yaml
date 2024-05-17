@@ -1,0 +1,131 @@
+
+#Define the Problem
+user_interview_task:
+  description: >
+    Collect initial information from the user regarding the problem or goal. Use structured interview techniques such as the 5 Whys to delve deeper into the issue. Prepare follow-up questions to clarify any ambiguities based on the user's responses.
+  expected_output: >
+    A brief summary of the high level problem/goal and a list of expected data to collect.
+  human_input: True
+  tools: []
+  agent: problem_definition_agent
+
+collect_data_task:
+  description: >
+    This task involves collecting all relevant documents provided by the user. This may include asking for qualitative information from the user, quantitative data from existing systems, and any previous reports or documents. This may include a web search to gather more relevant information if approved by the user.
+  expected_output: >
+    A compiled dossier of all relevant and available data that provides a comprehensive view of the current situation.
+  #tools: [web_search_tool, scrape_website_tool, csv_search_tool, pdf_search_tool, docx_search_tool]
+  human_input: True
+  tools: []
+  agent: problem_definition_agent
+
+
+identify_gaps_task:
+  description: >
+    This task focuses on pinpointing areas where information is lacking or where uncertainties exist. This may involve identifying gaps in data, ambiguous information, or conflicting data points. This may include asking the user clarification questions.
+  expected_output: >
+    A brief report detailing all identified uncertainties and information gaps that need resolution. Maintain an ongoing digital checklist of gaps/uncertainties for the user to update when appropriate.
+  human_input: True
+  tools: []
+  agent: problem_definition_agent
+
+define_problem_task:
+  description: >
+    Based on the gathered information and identified uncertainties, this is a crucial culmination of the previous tasks, where all collected information and identified gaps are synthesized into a clearly composed problem statement.
+  expected_output: >
+    A well-defined problem statement that clearly states the problem, context, and what needs to be addressed or achieved. Validate this statement with the user.
+  human_input: False
+  tools: []
+  agent: problem_definition_agent
+
+
+#Analyze
+breakdown_problem_task:
+  description: >
+    Dissect the larger problem into smaller, more manageable sub-problems. This segmentation should be logical and focused on making the analysis more efficient. Coordinate with the user to ensure that the segmentation aligns with their understanding and captures all aspects of the problem.
+  expected_output: >
+    A clearly defined list of sub-problems, each representing a segment of the larger issue that needs addressing. This list should be validated and possibly adjusted based on user feedback.
+  human_input: True
+  tools: []
+  agent: problem_analyzer_agent
+
+
+observe_patterns_task:
+  description: >
+    For each identified sub-problem, collect all relevant data, which could include historical data, current reports, user feedback, and more. Analyze this data to identify patterns, trends, or anomalies that could inform the underlying causes or factors of the problem. Regularly update the user on findings and incorporate their insights into the analysis process.
+  expected_output: >
+    A comprehensive dataset for each sub-problem and a report that highlights key observations, patterns, or trends found in the data.
+  human_input: True
+  tools: []
+  agent: problem_analyzer_agent
+
+asses_resources_task:
+  description: >
+    Assess the resources currently available that could be utilized in addressing the problem and identify any constraints (such as budgetary, temporal, regulatory, or technical constraints) that might impact potential solutions. This task should involve an iterative dialogue with the user to ensure all resource considerations and constraints are accurately captured and understood.
+  expected_output: >
+    A detailed analysis report that includes an inventory of available resources, a list of identified constraints, and an evaluation of how these factors may affect problem resolution. This report should be comprehensive and structured to allow easy digestion and decision-making by the user.
+  human_input: True
+  tools: []
+  agent: problem_analyzer_agent
+
+
+#Ideation
+brainstorm_session_task:
+  description: >
+    Begin a solution generation session that can include specifically appropriate brainstorming techniques (such as mind mapping, SCAMPER, and brainstorming sessions). If applicable, coordinate a collaborative session involving the user and other stakeholders to leverage diverse perspectives.
+  expected_output: >
+    A raw list of potential solutions generated during the session, reflecting creative and diverse thinking.
+  tools: []
+  human_input: True
+  agent: brainstorm_solutions_agent
+
+
+categorize_solutions_task:
+  description: >
+    After generating a broad set of solutions, categorize them based on various criteria such as innovation, feasibility, cost, impact, and implementability. Engage with the user to understand their preferences and priorities, which can help in effectively categorizing the solutions.
+  expected_output: >
+    A structured and categorized list of potential solutions, organized according to the specified criteria. Each category should be clearly defined and informed by user input to ensure alignment with stakeholder expectations and project goals.
+  human_input: False
+  tools: []
+  agent: brainstorm_solutions_agent
+
+
+#Evaluation
+evaluate_solutions_task:
+  description: >
+    Conduct a thorough evaluation of each proposed solution based on established criteria, which should include cost, time, resources, risks, and potential benefits. Use decision-support tools or software to quantify and compare these factors systematically. Engage with the user to confirm or adjust the evaluation criteria based on their priorities and insights, ensuring the assessment is aligned with stakeholder expectations.
+  expected_output: >
+    An evaluation matrix or report that scores each solution against the predefined criteria, clearly showing how each solution stands in terms of meeting the project’s needs and constraints.
+  human_input: False
+  tools: []
+  agent: solution_evaluation_agent
+
+prioritize_solutions_task:
+  description: >
+    Based on the evaluation, prioritize the solutions, identifying the top choices that offer the best balance of benefits and feasibility.
+  expected_output: >
+    A prioritized list of solutions, with detailed justifications for their rankings.
+  human_input: False
+  tools: []
+  agent: solution_evaluation_agent
+
+#Knowledge Graph
+create_initial_graph:
+  description: >
+    Create the initial structure of the knowledge graph using the data collected from the initial user interview and data collection tasks.
+  expected_output: >
+    An initial knowledge graph that maps all relevant entities and their relationships based on the provided data.
+  human_input: False
+  tools: [knowledge_graph_tool]
+  trigger: on_data_collected
+  agent: knowledge_graph_builder
+
+update_knowledge_graph:
+  description: >
+    Update the existing knowledge graph with new insights, data points, or corrections as the problem-solving process progresses and as new information becomes available.
+  expected_output: >
+    An updated knowledge graph that reflects the latest understanding of the problem space.
+  human_input: False
+  tools: [knowledge_graph_tool]
+  trigger: on_data_update
+  agent: knowledge_graph_builder
